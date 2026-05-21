@@ -297,7 +297,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:28
       <a href="#demo" class="btn-ghost">Подивитись реальне демо →</a>
     </div>
     <div class="hero-avatar">
-      <video src="https://res.cloudinary.com/dkckz0g55/video/upload/v1779337312/0504_1_dtfgsc.mp4" autoplay muted loop playsinline></video>
+      <video id="avatarVideo" src="https://res.cloudinary.com/dkckz0g55/video/upload/v1779337312/0504_1_dtfgsc.mp4" autoplay muted loop playsinline></video><button onclick="var v=document.getElementById('avatarVideo');v.muted=!v.muted;this.textContent=v.muted?'🔇':'🔊'" style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.6);border:none;color:white;font-size:18px;width:36px;height:36px;border-radius:50%;cursor:pointer;z-index:10;">🔇</button>
     </div>
   </div>
   <div class="hero-demo">
