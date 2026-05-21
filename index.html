@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OK Automation AI — Автоматизація для мікробізнесу</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060a0e;--surface:#0c1219;--card:#101820;--border:#182030;--border2:#20303f;
+  --accent:#0082C8;--accent-bright:#00a0f0;--accent-glow:rgba(0,130,200,0.12);--accent-dim:rgba(0,130,200,0.3);
+  --green:#00c97a;--green-glow:rgba(0,201,122,0.1);--orange:#f5a623;--red:#ff5f5f;
+  --text:#dce8f0;--muted:#456070;--muted2:#6a8898;
+  --mono:'Inter',sans-serif;--sans:'Manrope',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,130,200,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,130,200,.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 52px;background:rgba(6,10,14,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:var(--mono);font-size:14px;color:var(--accent);letter-spacing:.1em;text-decoration:none;}
+.nav-logo span{color:var(--muted2);margin-right:6px;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:var(--mono);font-size:11px;color:var(--muted2);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-phone{font-family:var(--mono);font-size:12px;color:var(--muted2);text-decoration:none;letter-spacing:.05em;transition:color .2s;}
+.nav-phone:hover{color:var(--text);}
+.nav-cta{font-family:var(--mono);font-size:11px;color:var(--accent);border:1px solid var(--accent-dim);padding:9px 22px;text-decoration:none;letter-spacing:.1em;text-transform:uppercase;background:var(--accent-glow);transition:all .2s;}
+.nav-cta:hover{background:rgba(0,130,200,.22);}
+
+/* S */
+.s{position:relative;z-index:1;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 52px 80px;position:relative;overflow:hidden;}
+.hero-glow{position:absolute;top:-100px;right:-100px;width:700px;height:700px;background:radial-gradient(circle,rgba(0,130,200,.1) 0%,transparent 65%);pointer-events:none;animation:glowPulse 8s ease-in-out infinite;}
+@keyframes glowPulse{0%,100%{opacity:.6;transform:scale(1);}50%{opacity:1;transform:scale(1.1);}}
+.hero-inner{max-width:680px;position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.22em;text-transform:uppercase;border:1px solid var(--accent-dim);padding:6px 14px;background:var(--accent-glow);margin-bottom:36px;animation:fadeUp .6s ease both;}
+.hero-badge::before{content:"●";font-size:6px;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+h1{font-size:clamp(48px,6.5vw,88px);font-weight:800;line-height:.98;letter-spacing:-.035em;margin-bottom:28px;animation:fadeUp .6s .1s ease both;}
+h1 .line2{color:var(--accent);}
+.hero-desc{font-family:var(--mono);font-size:15px;color:var(--muted2);line-height:1.8;max-width:520px;margin-bottom:16px;animation:fadeUp .6s .2s ease both;}
+.hero-note{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:48px;animation:fadeUp .6s .25s ease both;}
+.hero-note span{color:var(--green);}
+.hero-actions{display:flex;gap:16px;align-items:center;animation:fadeUp .6s .3s ease both;}
+.btn-primary{background:var(--accent);color:#fff;font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:16px 36px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:all .25s;}
+.btn-primary:hover{background:var(--accent-bright);transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,130,200,.3);}
+.btn-ghost{font-family:var(--mono);font-size:12px;color:var(--muted2);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s;}
+.btn-ghost:hover{color:var(--text);}
+
+/* HERO DEMO */
+.hero-demo{position:absolute;right:52px;top:280px;width:420px;animation:fadeUp .8s .4s ease both;}
+.demo-window{background:var(--card);border:1px solid var(--border2);overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.6);}
+.demo-bar{background:var(--surface);padding:10px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);}
+.demo-dots{display:flex;gap:5px;}
+.demo-dot{width:8px;height:8px;border-radius:50%;}
+.dd-r{background:#ff5f57;}.dd-y{background:#ffbd2e;}.dd-g{background:#28ca41;}
+.demo-title{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.1em;margin-left:8px;}
+.demo-chat{padding:16px;display:flex;flex-direction:column;gap:10px;}
+.chat-msg{font-family:var(--mono);font-size:11px;line-height:1.5;padding:10px 14px;max-width:85%;opacity:0;animation:msgAppear .4s ease forwards;}
+.chat-msg.user{background:rgba(0,130,200,.15);border:1px solid var(--accent-dim);color:var(--text);align-self:flex-end;border-radius:12px 12px 2px 12px;}
+.chat-msg.bot{background:var(--surface);border:1px solid var(--border2);color:var(--muted2);align-self:flex-start;border-radius:12px 12px 12px 2px;}
+.chat-msg.bot .bot-name{font-size:9px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;display:block;margin-bottom:4px;}
+@keyframes msgAppear{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.chat-msg:nth-child(1){animation-delay:1s;}.chat-msg:nth-child(2){animation-delay:2s;}.chat-msg:nth-child(3){animation-delay:3s;}.chat-msg:nth-child(4){animation-delay:4s;}.chat-msg:nth-child(5){animation-delay:5s;}
+.demo-label{font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center;padding:10px;letter-spacing:.1em;text-transform:uppercase;border-top:1px solid var(--border);}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.stat{background:var(--bg);padding:36px 40px;}
+.stat-val{font-size:44px;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:8px;}
+.stat-val span{color:var(--accent);}
+.stat-label{font-family:var(--mono);font-size:11px;color:var(--muted2);line-height:1.5;}
+
+/* SECTION EYEBROW */
+.section-eyebrow{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.25em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+.section-eyebrow::before{content:'';width:28px;height:1px;background:var(--accent);}
+h2{font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:24px;}
+
+/* PROBLEM */
+.problem{padding:100px 52px;}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:stretch;margin-top:60px;}
+/* обидва блоки — однаковий стиль картки */
+.problem-list,.solution-block{background:var(--card);border:1px solid var(--border);padding:32px;position:relative;overflow:hidden;display:flex;flex-direction:column;box-sizing:border-box;}
+.problem-list::before,.solution-block::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--green));}
+.solution-title{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.2em;text-transform:uppercase;margin-bottom:16px;flex-shrink:0;}
+/* елементи "До" — з підписом */
+.problem-item{padding:14px 18px;border:1px solid var(--border);background:var(--surface);display:flex;gap:14px;align-items:flex-start;transition:border-color .2s;}
+.problem-item:hover{border-color:var(--border2);}
+.problem-icon{font-size:18px;flex-shrink:0;margin-top:2px;}
+.problem-text strong{font-size:14px;font-weight:700;display:block;margin-bottom:3px;}
+.problem-text p{font-family:var(--mono);font-size:11px;color:var(--muted2);line-height:1.5;margin:0;}
+/* елементи "Після" — менший padding, зелений акцент */
+.solution-points{display:flex;flex-direction:column;gap:8px;flex:1;justify-content:space-between;}
+.solution-block .problem-item{padding:10px 14px;border-color:rgba(0,201,122,.2);background:rgba(0,201,122,.04);}
+.solution-point{font-family:var(--mono);font-size:13px;color:var(--muted2);display:flex;gap:12px;line-height:1.5;}
+.solution-point::before{content:"✓";color:var(--green);flex-shrink:0;}
+
+/* TABS */
+.how{padding:0 52px 100px;}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:40px;}
+.tab{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;padding:14px 24px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.tab-content{display:none;}
+.tab-content.active{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.how-steps{display:flex;flex-direction:column;gap:2px;}
+.how-step{display:grid;grid-template-columns:40px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--border);}
+.how-step:last-child{border-bottom:none;}
+.step-num{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:500;}
+.step-body strong{font-size:15px;display:block;margin-bottom:4px;}
+.step-body p{font-family:var(--mono);font-size:12px;color:var(--muted2);line-height:1.5;}
+.mock-screen{background:var(--card);border:1px solid var(--border2);overflow:hidden;}
+.mock-header{background:var(--surface);padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.mock-icon{font-size:16px;}.mock-name{font-family:var(--mono);font-size:11px;color:var(--text);}.mock-status{font-family:var(--mono);font-size:9px;color:var(--green);margin-left:auto;}
+.mock-body{padding:16px;display:flex;flex-direction:column;gap:8px;}
+.mock-row{font-family:var(--mono);font-size:11px;color:var(--muted2);padding:8px 12px;background:var(--surface);border:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.mock-row .tag{font-size:9px;padding:2px 8px;letter-spacing:.1em;}
+.tag-new{background:rgba(0,201,122,.12);color:var(--green);border:1px solid rgba(0,201,122,.3);}
+.tag-sent{background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent-dim);}
+.tag-auto{background:rgba(245,166,35,.1);color:var(--orange);border:1px solid rgba(245,166,35,.3);}
+
+/* SERVICES */
+.services{padding:0 52px 100px;}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px;}
+.service-card{background:var(--card);border:1px solid var(--border);padding:36px 32px;position:relative;overflow:hidden;transition:border-color .25s;}
+.service-card:hover{border-color:var(--border2);}
+.service-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--accent);transition:width .35s;}
+.service-card:hover::after{width:100%;}
+.service-num{font-family:var(--mono);font-size:10px;color:var(--border2);letter-spacing:.15em;margin-bottom:20px;}
+.service-icon{width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:20px;transition:border-color .25s,background .25s;}
+.service-card:hover .service-icon{border-color:var(--accent-dim);background:var(--accent-glow);}
+.service-name{font-size:18px;font-weight:700;margin-bottom:10px;}
+.service-desc{font-family:var(--mono);font-size:12px;color:var(--muted2);line-height:1.6;margin-bottom:20px;}
+.service-tools{display:flex;flex-wrap:wrap;gap:5px;}
+.tool{font-family:var(--mono);font-size:9px;color:var(--accent);border:1px solid rgba(0,130,200,.2);padding:3px 8px;background:var(--accent-glow);letter-spacing:.06em;}
+
+/* DEMO CAROUSEL */
+.demo-section{padding:0 52px 100px;}
+.phone-frame{background:#1a1a2e;border:8px solid #2a2a4a;border-radius:36px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.05);}
+.phone-notch{background:#0d0d1a;padding:12px 0;display:flex;justify-content:center;align-items:center;gap:6px;}
+.phone-home{background:#0d0d1a;padding:8px 0;display:flex;justify-content:center;}
+
+/* PRICING */
+.pricing{padding:0 52px 100px;}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px;}
+.price-card{background:var(--card);border:1px solid var(--border);padding:40px 36px;position:relative;overflow:hidden;transition:transform .25s;}
+.price-card:hover{transform:translateY(-4px);}
+.price-card.featured{border-color:var(--accent-dim);background:linear-gradient(160deg,rgba(0,130,200,.08) 0%,var(--card) 60%);}
+.price-card.featured::before{content:"Популярний";position:absolute;top:0;right:0;font-family:var(--mono);font-size:9px;color:var(--bg);background:var(--accent);padding:5px 14px;letter-spacing:.12em;text-transform:uppercase;}
+.price-tier{font-family:var(--mono);font-size:10px;color:var(--muted2);letter-spacing:.2em;text-transform:uppercase;margin-bottom:16px;}
+.price-name{font-size:22px;font-weight:800;margin-bottom:8px;}
+.price-val{font-size:52px;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:6px;}
+.price-val span{font-size:22px;color:var(--muted2);font-weight:400;}
+.price-note{font-family:var(--mono);font-size:11px;color:var(--green);margin-bottom:16px;}
+.price-running{font-family:var(--mono);font-size:11px;color:var(--orange);margin-bottom:24px;line-height:1.5;}
+.price-divider{border:none;border-top:1px solid var(--border);margin-bottom:24px;}
+.price-features{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
+.price-feature{font-family:var(--mono);font-size:12px;color:var(--muted2);display:flex;gap:10px;line-height:1.4;}
+.price-feature::before{content:"→";color:var(--accent);flex-shrink:0;}
+.price-feature.no{color:var(--muted);}
+.price-feature.no::before{content:"—";color:var(--border2);}
+.price-cta{display:block;text-align:center;font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:14px;text-decoration:none;transition:all .25s;}
+.price-cta.main{background:var(--accent);color:#fff;}
+.price-cta.main:hover{background:var(--accent-bright);}
+.price-cta.outline{border:1px solid var(--border2);color:var(--muted2);}
+.price-cta.outline:hover{border-color:var(--accent-dim);color:var(--accent);}
+
+/* COMPARE */
+.compare{padding:0 52px 100px;}
+.compare-table{width:100%;border-collapse:collapse;margin-top:48px;}
+.compare-table th{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;padding:14px 20px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;}
+.compare-table th:first-child{width:35%;}
+.compare-table td{font-family:var(--mono);font-size:12px;color:var(--muted2);padding:14px 20px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table tr:hover td{background:rgba(255,255,255,.01);}
+.c-us{color:var(--green);font-weight:500;}
+.c-no{color:var(--muted);}
+.c-hl{color:var(--text);font-weight:600;}
+.compare-table th.us-col{color:var(--accent);}
+
+/* FOR WHO */
+.forwho{padding:0 52px 100px;}
+.forwho-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:48px;}
+.who-card{background:var(--card);border:1px solid var(--border);padding:28px 24px;transition:border-color .2s;}
+.who-card:hover{border-color:var(--accent-dim);}
+.who-emoji{font-size:28px;margin-bottom:14px;display:block;}
+.who-name{font-size:16px;font-weight:700;margin-bottom:8px;}
+.who-pain{font-family:var(--mono);font-size:11px;color:var(--muted2);line-height:1.5;}
+
+/* FAQ */
+.faq{padding:0 52px 100px;}
+.faq-list{display:flex;flex-direction:column;gap:2px;margin-top:48px;max-width:800px;}
+.faq-item{background:var(--card);border:1px solid var(--border);overflow:hidden;}
+.faq-q{padding:22px 28px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:20px;font-size:15px;font-weight:600;transition:background .2s;}
+.faq-q:hover{background:var(--surface);}
+.faq-icon{font-family:var(--mono);font-size:18px;color:var(--accent);flex-shrink:0;transition:transform .3s;line-height:1;}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;padding:0 28px;}
+.faq-a-inner{font-family:var(--mono);font-size:13px;color:var(--muted2);line-height:1.7;padding-bottom:22px;}
+.faq-item.open .faq-a{max-height:300px;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-item.open{border-color:var(--accent-dim);}
+
+/* CTA */
+.cta-section{margin:0 52px 80px;background:var(--card);border:1px solid var(--border);padding:72px 64px;display:grid;grid-template-columns:1fr auto;gap:60px;align-items:center;position:relative;overflow:hidden;}
+.cta-section::before{content:'';position:absolute;top:-80px;right:0;width:400px;height:400px;background:radial-gradient(circle,rgba(0,130,200,.1) 0%,transparent 70%);pointer-events:none;}
+.cta-label{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.25em;text-transform:uppercase;margin-bottom:16px;}
+.cta-title{font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:12px;}
+.cta-sub{font-family:var(--mono);font-size:13px;color:var(--muted2);line-height:1.6;}
+.cta-right{display:flex;flex-direction:column;gap:16px;align-items:flex-start;flex-shrink:0;}
+.contact-block{display:flex;flex-direction:column;gap:8px;}
+.contact-line{font-family:var(--mono);font-size:12px;color:var(--muted2);display:flex;gap:10px;}
+.contact-line a{color:var(--muted2);text-decoration:none;transition:color .2s;}
+.contact-line a:hover{color:var(--accent);}
+
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:28px 52px;display:flex;align-items:center;justify-content:space-between;}
+.footer-left{font-family:var(--mono);font-size:11px;color:var(--muted);}
+.footer-links{display:flex;gap:24px;}
+.footer-links a{font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--accent);}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+/* HERO AVATAR */
+.hero-avatar{margin-top:32px;animation:fadeUp .8s .5s ease both;}
+.hero-avatar video{width:360px;height:360px;object-fit:cover;object-position:50% 30%;border-radius:50%;border:2px solid var(--accent-dim);box-shadow:0 0 40px rgba(0,130,200,.2);}
+
+/* PACKAGES TABLE */
+.pkg-wrap{margin-top:48px;overflow-x:auto;}
+.packages-table{width:100%;border-collapse:collapse;}
+.packages-table thead tr{border-bottom:2px solid var(--accent-dim);}
+.packages-table th{font-family:var(--sans);font-size:14px;font-weight:700;padding:20px 24px;text-align:center;color:var(--text);}
+.packages-table th.pkg-feature-col{text-align:left;font-family:var(--mono);font-size:10px;font-weight:400;color:var(--muted2);letter-spacing:.15em;text-transform:uppercase;width:40%;}
+.packages-table th.pkg-featured{color:var(--accent);}
+.packages-table tbody td{font-family:var(--mono);font-size:13px;color:var(--text);padding:14px 24px;border-bottom:1px solid var(--border);}
+.packages-table tbody tr:last-child td{border-bottom:none;}
+.packages-table tbody tr:hover td{background:rgba(255,255,255,.015);}
+.packages-table td.check{text-align:center;color:var(--green);font-size:18px;font-weight:700;}
+.packages-table td.cross{text-align:center;color:var(--border2);font-size:16px;}
+.packages-table td.pkg-info{text-align:center;font-family:var(--mono);font-size:12px;color:var(--accent);}
+.pkg-cta-row{display:grid;grid-template-columns:40% 1fr 1fr 1fr;gap:2px;margin-top:2px;}
+.pkg-cta-empty{background:transparent;}
+.pkg-cta-cell{padding:12px 24px;background:var(--card);border:1px solid var(--border);}
+.pkg-cta-featured{border-color:var(--accent-dim);}
+.pkg-cta-cell .price-cta{display:block;text-align:center;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:12px;text-decoration:none;transition:all .25s;}
+.pkg-cta-cell .price-cta.main{background:var(--accent);color:#fff;}
+.pkg-cta-cell .price-cta.main:hover{background:var(--accent-bright);}
+.pkg-cta-cell .price-cta.outline{border:1px solid var(--border2);color:var(--muted2);}
+.pkg-cta-cell .price-cta.outline:hover{border-color:var(--accent-dim);color:var(--accent);}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border2);}
+
+@media(max-width:900px){
+  nav{padding:16px 24px;}.nav-links{display:none;}
+  .hero{padding:100px 24px 60px;}.hero-demo{display:none;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .problem,.how,.services,.pricing,.compare,.forwho,.faq,.demo-section{padding-left:24px;padding-right:24px;}
+  .problem-grid,.tab-content.active{grid-template-columns:1fr;}
+  .services-grid,.pricing-grid{grid-template-columns:1fr;}
+  .forwho-grid{grid-template-columns:1fr 1fr;}
+  .cta-section{margin:0 24px 60px;padding:40px 28px;grid-template-columns:1fr;}
+  footer{padding:24px;flex-direction:column;gap:16px;text-align:center;}
+  .demo-grid{grid-template-columns:1fr !important;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo"><span>//</span>OK Automation AI</a>
+  <ul class="nav-links">
+    <li><a href="#how">Як працює</a></li>
+    <li><a href="#demo">Демо</a></li>
+    <li><a href="#pricing">Ціни</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="tel:+380961234888" class="nav-phone">+38 (096) 123-48-88</a>
+  <a href="https://t.me/okautomation_ai" class="nav-cta">Безкоштовний аудит</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero s">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">Автоматизація для мікробізнесу · Україна</div>
+    <h1>Твій бізнес<br><span class="line2">працює</span><br>Рутина автоматизована</h1>
+    <p class="hero-desc">Зараз — клієнти пишуть у різних месенджерах, записи вручну, Instagram без системи. Після підключення — один канал: Telegram-асистент бере на себе запис, нагадування і повернення клієнтів. Один раз налаштовано — <span style="color:var(--green)">працює роками</span></p>
+    <div class="hero-actions">
+      <a href="https://t.me/okautomation_ai" class="btn-primary">Отримати безкоштовний аудит</a>
+      <a href="#demo" class="btn-ghost">Подивитись реальне демо →</a>
+    </div>
+    <div class="hero-avatar">
+      <video src="0504.mp4" autoplay muted loop playsinline></video>
+    </div>
+  </div>
+  <div class="hero-demo">
+    <div class="phone-frame" style="width:300px;">
+      <div class="phone-notch"><div style="width:8px;height:8px;background:#333;border-radius:50%;"></div><div style="width:60px;height:4px;background:#222;border-radius:4px;"></div></div>
+      <img src="slide_6.jpg" style="width:100%;display:block;" alt="Реальний Telegram-асистент">
+      <div class="phone-home"><div style="width:80px;height:3px;background:#333;border-radius:4px;"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR WHO -->
+<section class="forwho s">
+  <div class="section-eyebrow">Для кого</div>
+  <h2>Хто використовує</h2>
+  <div class="forwho-grid reveal">
+    <div class="who-card"><span class="who-emoji">💅</span><div class="who-name">Косметологи та nail-майстри</div><div class="who-pain">Ручний запис, Instagram без системи, клієнти забувають прийти</div></div>
+    <div class="who-card"><span class="who-emoji">✂️</span><div class="who-name">Барбери і перукарі</div><div class="who-pain">Черги в директ, пропущені повідомлення, немає часу на соцмережі</div></div>
+    <div class="who-card"><span class="who-emoji">📸</span><div class="who-name">Фотографи</div><div class="who-pain">Ручна комунікація, немає системи нагадувань і повернення клієнтів</div></div>
+    <div class="who-card"><span class="who-emoji">🧘</span><div class="who-name">Фітнес і тренери</div><div class="who-pain">Записи в різних месенджерах, немає нагадувань, Instagram хаотично</div></div>
+    <div class="who-card"><span class="who-emoji">🦷</span><div class="who-name">Стоматологи</div><div class="who-pain">Не обов'язково наймати адміністратора — цифровий асистент приймає записи цілодобово</div></div>
+    <div class="who-card"><span class="who-emoji">🐾</span><div class="who-name">Грумінг-салони</div><div class="who-pain">Запис через дзвінки і повідомлення вручну, клієнти губляться</div></div>
+    <div class="who-card"><span class="who-emoji">📚</span><div class="who-name">Репетитори</div><div class="who-pain">Розклад в голові, нагадування вручну, немає автоматики</div></div>
+    <div class="who-card"><span class="who-emoji">🎨</span><div class="who-name">Майстри і ремісники</div><div class="who-pain">Instagram — головний канал, але немає часу і системи його вести</div></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-row s reveal">
+  <div class="stat"><div class="stat-val">до 60<span> с</span></div><div class="stat-label">Час обробки запиту<br>клієнта ботом</div></div>
+  <div class="stat"><div class="stat-val">24<span>/7</span></div><div class="stat-label">Асистент приймає записи<br>без вашої участі</div></div>
+  <div class="stat"><div class="stat-val">0 <span>грн</span></div><div class="stat-label">Перший місяць підтримки<br>після підключення</div></div>
+  <div class="stat"><div class="stat-val">від 3<span> дн</span></div><div class="stat-label">Від замовлення<br>до запуску системи</div></div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem s" id="problem">
+  <div class="section-eyebrow">Проблема</div>
+  <h2>Ви витрачаєте час<br>на те, що може робити бот</h2>
+  <div class="problem-grid">
+    <div class="problem-list reveal">
+      <div class="solution-title">✦ До підключення</div>
+      <div class="problem-item"><div class="problem-icon">📞</div><div class="problem-text"><strong>Записуєш клієнтів вручну</strong><p>Дзвінки, повідомлення, звірка з блокнотом — по 2-3 години на день. Після роботи, у вихідні.</p></div></div>
+      <div class="problem-item"><div class="problem-icon">📸</div><div class="problem-text"><strong>Instagram ведеться хаотично або не ведеться</strong><p>Немає часу, немає ідей, немає регулярності. Алгоритм карає за нерегулярність.</p></div></div>
+      <div class="problem-item"><div class="problem-icon">👻</div><div class="problem-text"><strong>Клієнти зникають і не повертаються</strong><p>Ніхто не нагадує про наступний візит. Немає ДР-привітань. Немає системи повернення.</p></div></div>
+      <div class="problem-item"><div class="problem-icon">📲</div><div class="problem-text"><strong>Клієнти пишуть у різних месенджерах</strong><p>WhatsApp, Viber, Instagram, SMS — неможливо відстежити всі запити. Записи губляться.</p></div></div>
+      <div class="problem-item"><div class="problem-icon">💸</div><div class="problem-text"><strong>Платите за SaaS-підписки щомісяця</strong><p>Altegio, Yclients, ManyChat — від 1500 грн/міс. Навіть якщо не користуєтеся.</p></div></div>
+      <div class="problem-item"><div class="problem-icon">📊</div><div class="problem-text"><strong>Фінанси не під контролем</strong><p>Немає чіткої картини: скільки заробили, скільки витратили, де осідають гроші.</p></div></div>
+    </div>
+    <div class="solution-block reveal">
+      <div class="solution-title">✦ Рішення OK Automation</div>
+      <div class="solution-points">
+        <div class="problem-item" style="border-color:rgba(0,201,122,.2);background:rgba(0,201,122,.04);"><div class="problem-text"><strong>Один канал — Telegram-асистент — замість багатьох месенджерів</strong></div></div>
+        <div class="problem-item" style="border-color:rgba(0,201,122,.2);background:rgba(0,201,122,.04);"><div class="problem-text"><strong>Telegram-асистент записує клієнтів 24/7</strong></div></div>
+        <div class="problem-item" style="border-color:rgba(0,201,122,.2);background:rgba(0,201,122,.04);"><div class="problem-text"><strong>Всі записи в Google Календарі</strong></div></div>
+        <div class="problem-item" style="border-color:rgba(0,201,122,.2);background:rgba(0,201,122,.04);"><div class="problem-text"><strong>Автоматичні нагадування клієнтам про запис</strong></div></div>
+        <div class="problem-item" style="border-color:rgba(0,201,122,.2);background:rgba(0,201,122,.04);"><div class="problem-text"><strong>Автоматичні ДР-привітання і реактивація клієнтів</strong></div></div>
+        <div class="problem-item" style="border-color:rgba(0,201,122,.2);background:rgba(0,201,122,.04);"><div class="problem-text"><strong>Разова оплата — і працює роками без підписок</strong></div></div>
+        <div class="problem-item" style="border-color:rgba(0,201,122,.2);background:rgba(0,201,122,.04);"><div class="problem-text"><strong>Мінімальні поточні витрати</strong></div></div>
+        <div class="problem-item" style="border-color:rgba(0,201,122,.2);background:rgba(0,201,122,.04);"><div class="problem-text"><strong>Щомісячна підтримка від розробника</strong></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how s" id="how">
+  <div class="section-eyebrow">Як це працює</div>
+  <h2>Три системи на автопілоті</h2>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(0)">📱 Запис клієнтів</button>
+    <button class="tab" onclick="switchTab(1)">📸 Контент-машина</button>
+    <button class="tab" onclick="switchTab(2)">💌 Повернення клієнтів</button>
+  </div>
+  <div class="tab-content active" id="tab0">
+    <div class="how-steps">
+      <div class="how-step"><div class="step-num">01</div><div class="step-body"><strong>Цифровий асистент працює 24/7</strong><p>Клієнт пише у будь-який час — вночі, у вихідні. Відповідь миттєво.</p></div></div>
+      <div class="how-step"><div class="step-num">02</div><div class="step-body"><strong>Асистент пропонує вільні слоти</strong><p>Актуальний розклад з загальної Google-бази.</p></div></div>
+      <div class="how-step"><div class="step-num">03</div><div class="step-body"><strong>Клієнт обирає час, підтверджує</strong><p>Запис зберігається автоматично. Ти бачиш його в календарі.</p></div></div>
+      <div class="how-step"><div class="step-num">04</div><div class="step-body"><strong>Автонагадування за добу до візиту</strong><p>Клієнт отримує нагадування про час і дату процедури з інформацією про запис до майстра. Ви не втрачаєте клієнтів — вони задоволені.</p></div></div>
+    </div>
+    <div class="mock-screen">
+      <div class="mock-header"><span class="mock-icon">📊</span><span class="mock-name">Google Sheets · Записи</span><span class="mock-status">● Live</span></div>
+      <div class="mock-body">
+        <div class="mock-row" style="background:rgba(0,201,122,.05);border-color:rgba(0,201,122,.2);"><span>Анна К. · Ботокс · Пн 14:00</span><span class="tag tag-new">Новий</span></div>
+        <div class="mock-row"><span>Марина В. · Мезотерапія · Вт 11:00</span><span class="tag tag-sent">Нагадування ✓</span></div>
+        <div class="mock-row"><span>Ольга П. · Філери · Ср 16:30</span><span class="tag tag-auto">Авто</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-content" id="tab1">
+    <div class="how-steps">
+      <div class="how-step"><div class="step-num">01</div><div class="step-body"><strong>Ти завантажуєш фото і назву в Google Drive</strong><p>Одна папка. Більше нічого робити не потрібно.</p></div></div>
+      <div class="how-step"><div class="step-num">02</div><div class="step-body"><strong>AI аналізує фото і пише підпис</strong><p>Короткий мотивуючий текст поста з хештегами в твоєму стилі.</p></div></div>
+      <div class="how-step"><div class="step-num">03</div><div class="step-body"><strong>Make.com публікує в Instagram і Facebook</strong><p>Стабільне підключення через офіційний Graph API. Публікація безкоштовна.</p></div></div>
+      <div class="how-step"><div class="step-num">04</div><div class="step-body"><strong>На коментарі і DM відповідає бот</strong><p>Перша відповідь — миттєво. Клієнт не чекає.</p></div></div>
+    </div>
+    <div class="mock-screen">
+      <div class="mock-header"><span class="mock-icon">📸</span><span class="mock-name">Instagram · Черга</span><span class="mock-status">● Autopilot</span></div>
+      <div class="mock-body">
+        <div class="mock-row" style="background:rgba(0,201,122,.05);border-color:rgba(0,201,122,.2);"><span>Пн 10:00 · фото_роботи.jpg</span><span class="tag tag-new">Опубліковано</span></div>
+        <div class="mock-row"><span>Ср 14:00 · до_після.jpg</span><span class="tag tag-auto">Заплановано</span></div>
+        <div class="mock-row"><span>Пт 11:00 · весна_2026.jpg</span><span class="tag tag-auto">Заплановано</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-content" id="tab2">
+    <div class="how-steps">
+      <div class="how-step"><div class="step-num">01</div><div class="step-body"><strong>База клієнтів в Google Sheets</strong><p>Ім'я, дата народження, телефон, дата останнього візиту.</p></div></div>
+      <div class="how-step"><div class="step-num">02</div><div class="step-body"><strong>У день народження — персональне привітання</strong><p>GPT генерує унікальний текст. Асистент відправляє в Telegram.</p></div></div>
+      <div class="how-step"><div class="step-num">03</div><div class="step-body"><strong>Клієнт не приходив 30+ днів — нагадування</strong><p>"Давно не бачились — є вільні слоти на цьому тижні 😊"</p></div></div>
+      <div class="how-step"><div class="step-num">04</div><div class="step-body"><strong>Клієнт повертається і записується через асистента</strong><p>Повне коло замкнуто. Все автоматично.</p></div></div>
+    </div>
+    <div class="mock-screen">
+      <div class="mock-header"><span class="mock-icon">💌</span><span class="mock-name">Розсилки сьогодні</span><span class="mock-status">● Відправлено</span></div>
+      <div class="mock-body">
+        <div class="mock-row" style="background:rgba(0,201,122,.05);border-color:rgba(0,201,122,.2);"><span>🎂 ДР · Ірина М. · Привітання</span><span class="tag tag-new">Відправлено</span></div>
+        <div class="mock-row"><span>💤 Реактивація · 8 клієнтів 30+ днів</span><span class="tag tag-sent">Надіслано</span></div>
+        <div class="mock-row"><span>📅 Нагадування · завтра · 6 записів</span><span class="tag tag-auto">18:00</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REAL DEMO -->
+<section class="demo-section s" id="demo">
+  <div class="section-eyebrow">Живе демо</div>
+  <h2>Ось як це виглядає<br>в реальному боті</h2>
+  <p style="font-family:var(--mono);font-size:13px;color:var(--muted2);margin-top:12px;max-width:560px;line-height:1.7;">
+    Реальні скріншоти бота косметолога Олени Лось (Харків) — побудованого нами для клієнта. Весь процес від вибору послуги до підтвердження і нагадування.
+  </p>
+  <div style="margin-top:48px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+      <div id="carouselDots" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="prevSlide()" style="background:var(--card);border:1px solid var(--border2);color:var(--muted2);width:40px;height:40px;cursor:pointer;font-size:16px;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border2)'">←</button>
+        <button onclick="nextSlide()" style="background:var(--card);border:1px solid var(--border2);color:var(--muted2);width:40px;height:40px;cursor:pointer;font-size:16px;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border2)'">→</button>
+      </div>
+    </div>
+    <div class="demo-grid" style="display:grid;grid-template-columns:400px 1fr;gap:60px;align-items:start;">
+      <div>
+        <div class="phone-frame">
+          <div class="phone-notch"><div style="width:8px;height:8px;background:#333;border-radius:50%;"></div><div style="width:60px;height:4px;background:#222;border-radius:4px;"></div></div>
+          <img id="carouselImg" src="" style="width:100%;display:block;min-height:380px;object-fit:cover;" alt="Bot demo">
+          <div class="phone-home"><div style="width:80px;height:3px;background:#333;border-radius:4px;"></div></div>
+        </div>
+      </div>
+      <div style="padding-top:12px;">
+        <div id="slideStep" style="font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.25em;text-transform:uppercase;margin-bottom:14px;"></div>
+        <div id="slideTitle" style="font-size:32px;font-weight:800;letter-spacing:-.03em;margin-bottom:16px;line-height:1.1;"></div>
+        <div id="slideDesc" style="font-family:var(--mono);font-size:14px;color:var(--muted2);line-height:1.7;max-width:420px;margin-bottom:32px;"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+          <div style="flex:1;height:2px;background:var(--border);position:relative;overflow:hidden;"><div id="progressBar" style="position:absolute;left:0;top:0;height:100%;background:var(--accent);transition:width .4s ease;"></div></div>
+          <div id="slideCounter" style="font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap;"></div>
+        </div>
+        <div id="featureBox" style="background:var(--card);border:1px solid var(--border);border-left:2px solid var(--accent);padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted2);line-height:1.6;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services s" id="services">
+  <div class="section-eyebrow">Що входить</div>
+  <h2>Повна екосистема<br>для твого бізнесу.</h2>
+  <div class="services-grid reveal">
+    <div class="service-card"><div class="service-num">01</div><div class="service-icon">🤖</div><div class="service-name">Telegram-асистент запису</div><div class="service-desc">Клієнти записуються самі. Бот веде діалог, показує вільні слоти, підтверджує запис і зберігає в Google Sheets.</div><div class="service-tools"><span class="tool">Make.com</span><span class="tool">Telegram API</span><span class="tool">Google Sheets</span></div></div>
+    <div class="service-card"><div class="service-num">02</div><div class="service-icon">📸</div><div class="service-name">Instagram / Facebook autopilot</div><div class="service-desc">Завантажуєш фото — бот пише підпис, публікує за розкладом і відповідає на коментарі та DM. Без платних сервісів.</div><div class="service-tools"><span class="tool">Meta Graph API</span><span class="tool">GPT-4o</span><span class="tool">Make.com</span></div></div>
+    <div class="service-card"><div class="service-num">03</div><div class="service-icon">🔔</div><div class="service-name">Нагадування про записи</div><div class="service-desc">За добу до візиту клієнт отримує автонагадування з адресою і телефоном. пропущені візити зникає.</div><div class="service-tools"><span class="tool">Make.com</span><span class="tool">Telegram</span><span class="tool">Google Cal</span></div></div>
+    <div class="service-card"><div class="service-num">04</div><div class="service-icon">🎂</div><div class="service-name">ДР-привітання і реактивація</div><div class="service-desc">Персональні привітання в день народження через GPT. Нагадування клієнтам які не були 30+ днів.</div><div class="service-tools"><span class="tool">OpenAI GPT-4o</span><span class="tool">Make.com</span><span class="tool">Telegram</span></div></div>
+    <div class="service-card"><div class="service-num">05</div><div class="service-icon">📢</div><div class="service-name">Контент-фабрика Telegram</div><div class="service-desc">Автоматичний збір новин по ніші, GPT-резюме і публікація в Telegram-канал. Без SMM-менеджера.</div><div class="service-tools"><span class="tool">Apify</span><span class="tool">GPT-4o</span><span class="tool">Telegram</span></div></div>
+    <div class="service-card"><div class="service-num">06</div><div class="service-icon">📧</div><div class="service-name">Email + SMS маркетинг</div><div class="service-desc">Персоналізовані розсилки по базі клієнтів. Акції, новини, реактивація без щомісячних платних сервісів.</div><div class="service-tools"><span class="tool">Make.com</span><span class="tool">OpenAI</span><span class="tool">SMTP</span></div></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing s" id="pricing">
+  <div class="section-eyebrow">Пакети</div>
+  <h2>Оберіть свій пакет</h2>
+  <div class="pkg-wrap reveal">
+    <table class="packages-table">
+      <thead>
+        <tr>
+          <th class="pkg-feature-col">Що включено</th>
+          <th class="pkg-col">Старт</th>
+          <th class="pkg-col pkg-featured">Бізнес</th>
+          <th class="pkg-col">Екосистема</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Telegram-асистент запису клієнтів</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Нагадування про записи</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>База клієнтів в Google Sheets</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Інструкція і навчання</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>ДР-привітання і реактивація клієнтів</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Instagram + Facebook autopilot</td><td class="cross">—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Контент-фабрика Telegram</td><td class="cross">—</td><td class="cross">—</td><td class="check">✓</td></tr>
+        <tr><td>Email + SMS маркетинг</td><td class="cross">—</td><td class="cross">—</td><td class="check">✓</td></tr>
+        <tr><td>Фінансовий облік через Telegram-асистент</td><td class="cross">—</td><td class="cross">—</td><td class="check">✓</td></tr>
+        <tr><td>Підтримка від розробника включена</td><td class="pkg-info">30 днів</td><td class="pkg-info">30 днів</td><td class="pkg-info">60 днів</td></tr>
+        <tr><td>Щомісячна підтримка після гарантійного терміну</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      </tbody>
+    </table>
+    <div class="pkg-cta-row">
+      <div class="pkg-cta-empty"></div>
+      <div class="pkg-cta-cell"><a href="https://t.me/okautomation_ai" class="price-cta outline">Обговорити</a></div>
+      <div class="pkg-cta-cell pkg-cta-featured"><a href="https://t.me/okautomation_ai" class="price-cta main">Отримати аудит</a></div>
+      <div class="pkg-cta-cell"><a href="https://t.me/okautomation_ai" class="price-cta outline">Обговорити</a></div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- FAQ -->
+<section class="faq s" id="faq">
+  <div class="section-eyebrow">FAQ</div>
+  <h2>Питання і відповіді</h2>
+  <div class="faq-list reveal">
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Чи потрібні технічні знання для роботи із системою?<span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Після підключення ви працюєте лише з Google Календарем і Google Таблицями — інструментами, якими більшість уже користується. Вся технічна частина залишається на розробнику. Після запуску проводимо навчання тривалістю 30–60 хвилин.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Які щомісячні витрати після підключення?<span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Make.com — від $9/міс за курсом (є безкоштовний тариф з обмеженнями). AI-генерація контенту — pay-as-you-go, орієнтовно $5–15/міс за курсом. Telegram, Google Sheets, Google Drive, публікація в Instagram — безкоштовно. Супровід від розробника — по зверненню.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Скільки часу займає підключення?<span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Пакет Старт — від 3 до 5 робочих днів. Пакет Бізнес — до 7 робочих днів. Пакет Екосистема — до 14 робочих днів. Від клієнта потрібно надати доступ до акаунтів і відповісти на кілька питань про бізнес.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Чим OK Automation відрізняється від інших рішень?<span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Разова оплата — без прив'язки до щомісячних підписок. Ви власник системи: все побудовано на Google-інструментах, які залишаються у вашому розпорядженні. Один розробник — особистий контакт, зручна комунікація без технічного жаргону. Бріф і технічне завдання перед стартом — без сюрпризів. Навчання включено: після запуску ви розумієте як працює система. Підключення від 3-х днів. Надійно, зрозуміло, комфортно — перевірено на реальних клієнтах.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Яка підтримка передбачена після запуску?<span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Кожен пакет включає гарантійний період підтримки — 30 або 60 днів залежно від пакету. Після завершення гарантійного терміну підтримка надається по зверненню.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Як ознайомитися з роботою системи?<span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Ви можете записатися через асистента косметолога Олени Лось і побачити систему в реальній роботі. Також доступна безкоштовна консультація — 30 хвилин — для обговорення вашого проєкту.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Як розпочати?<span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Напишіть нам у Telegram — проведемо безкоштовну консультацію і підготуємо рішення під ваш бізнес.</div></div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section s reveal">
+  <div>
+    <div class="cta-label">Починаємо?</div>
+    <div class="cta-title">Від запиту до<br>готової системи — від 3-х днів.</div>
+    <div class="cta-sub">Безкоштовний аудит · Без передоплати · Без технічних знань з твого боку</div>
+  </div>
+  <div class="cta-right">
+    <a href="https://t.me/okautomation_ai" class="btn-primary">Написати в Telegram</a>
+    <div class="contact-block">
+      <div class="contact-line"><span style="color:var(--accent)">📞</span><a href="tel:+380961234888">+38 (096) 123-48-88</a></div>
+      <div class="contact-line"><span style="color:var(--accent)">✉️</span><a href="mailto:contact@okautomation-ai.com">contact@okautomation-ai.com</a></div>
+      <div class="contact-line"><span style="color:var(--accent)">🌐</span><a href="https://okautomation-ai.com">okautomation-ai.com</a></div>
+    </div>
+  </div>
+</div>
+
+<footer class="s">
+  <div class="footer-left">© 2025 OK Automation AI · Автоматизація для мікробізнесу · Франція / Україна</div>
+  <div class="footer-links">
+    <a href="https://t.me/okautomation_ai">Telegram</a>
+    <a href="https://instagram.com/okautomation_ai">Instagram</a>
+    <a href="mailto:contact@okautomation-ai.com">Email</a>
+  </div>
+</footer>
+
+<script>
+const SLIDES=[{'step':'Крок 1','title':'Вибір послуги','desc':'Клієнт обирає процедуру із списку. Ботокс, Філери, Мезотерапія та інші. Без дзвінків.','src':'slide_0.jpg'},{'step':'Крок 2','title':'Вибір дати','desc':'Інтерактивний календар показує лише вільні дати. Зайняті позначені червоним.','src':'slide_1.jpg'},{'step':'Крок 3','title':'Вибір часу','desc':'Всі вільні слоти на обраний день. Клієнт обирає одним дотиком.','src':'slide_2.jpg'},{'step':'Крок 4','title':'Ім\'я клієнта','desc':'Асистент пропонує використати ім\'я з Telegram. Повторним клієнтам ще швидше.','src':'slide_3.jpg'},{'step':'Крок 5','title':'Телефон','desc':'Один дотик — і номер передано. Без ручного введення.','src':'slide_4.jpg'},{'step':'Крок 6','title':'Запис підтверджено','desc':'Клієнт бачить дату, час, послугу, вартість. Все зберігається в Google Sheets.','src':'slide_5.jpg'},{'step':'Крок 7','title':'Автонагадування','desc':'За добу бот надсилає нагадування з адресою та телефоном. пропущені візити близький до нуля.','src':'slide_6.jpg'},{'step':'Бонус','title':'День народження','desc':'GPT генерує персональний текст. Клієнт отримує привітання від косметолога.','src':'slide_7.jpg'},{'step':'Бонус','title':'Збір дати ДР','desc':'Бот збирає дату народження. Наступного року привітає автоматично.','src':'slide_8.jpg'}];
+
+const FEATURES=[
+  "Повний список послуг з тривалістю. Ботокс, Філери, Мезотерапія та інші. Клієнт не дзвонить — просто тапає потрібну процедуру.",
+  "Календар показує тільки вільні дати. Зайняті позначені червоним — неможливо записатися двічі на один час.",
+  "Слоти генеруються з Google Sheets. Якщо час зайнятий — він не показується. Помилок немає.",
+  "Бот впізнає постійних клієнтів з Telegram. Повторний запис ще швидший — ім'я вже відоме.",
+  "Один дотик — і номер передано. Не треба нічого вводити вручну. Мінімум тертя для клієнта.",
+  "Повне підтвердження: дата, час, послуга, вартість, контакти. Все зберігається в Google Sheets автоматично.",
+  "Нагадування рівно за 24 години до візиту. Адреса і телефон вже в повідомленні. пропущені візити практично зникає.",
+  "Текст привітання генерує GPT — кожного разу унікальний і персональний. Від імені косметолога.",
+  "Після збереження дати — наступного року бот привітає автоматично. Нічого не треба робити вручну."
+];
+
+let current=0,autoTimer=null;
+
+function renderSlide(i){
+  const s=SLIDES[i];
+  document.getElementById("carouselImg").src=s.src;
+  document.getElementById("slideStep").textContent=s.step;
+  document.getElementById("slideTitle").textContent=s.title;
+  document.getElementById("slideDesc").textContent=s.desc;
+  document.getElementById("slideCounter").textContent=(i+1)+" / "+SLIDES.length;
+  document.getElementById("progressBar").style.width=((i+1)/SLIDES.length*100)+"%";
+  document.getElementById("featureBox").textContent=FEATURES[i]||"";
+  const c=document.getElementById("carouselDots");
+  c.innerHTML="";
+  SLIDES.forEach(function(_,j){
+    const d=document.createElement("div");
+    d.style.cssText="width:"+(j===i?24:8)+"px;height:8px;border-radius:4px;background:"+(j===i?"var(--accent)":"var(--border2)")+";cursor:pointer;transition:all .3s;";
+    d.onclick=function(){current=j;renderSlide(j);resetAuto();};
+    c.appendChild(d);
+  });
+}
+
+function nextSlide(){current=(current+1)%SLIDES.length;renderSlide(current);}
+function prevSlide(){current=(current-1+SLIDES.length)%SLIDES.length;renderSlide(current);}
+function resetAuto(){clearInterval(autoTimer);autoTimer=setInterval(function(){nextSlide();},4500);}
+
+function switchTab(i){
+  document.querySelectorAll(".tab").forEach(function(t,j){t.classList.toggle("active",i===j);});
+  document.querySelectorAll(".tab-content").forEach(function(c,j){c.classList.toggle("active",i===j);});
+}
+
+function toggleFaq(el){
+  const item=el.parentElement;
+  const isOpen=item.classList.contains("open");
+  document.querySelectorAll(".faq-item").forEach(function(f){f.classList.remove("open");});
+  if(!isOpen)item.classList.add("open");
+}
+
+const observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add("visible");});
+},{threshold:0.1});
+document.querySelectorAll(".reveal").forEach(function(el){observer.observe(el);});
+
+document.addEventListener("keydown",function(e){
+  if(e.key==="ArrowRight")nextSlide();
+  if(e.key==="ArrowLeft")prevSlide();
+});
+
+window.addEventListener("DOMContentLoaded",function(){
+  renderSlide(0);
+  resetAuto();
+});
+</script>
+</body>
+</html>
